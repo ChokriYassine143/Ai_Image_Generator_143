@@ -1,16 +1,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithPopup,
-  sendPasswordResetEmail,
-  User
-} from "firebase/auth";
-import { auth, googleProvider } from "@/lib/firebase";
+import { User } from "firebase/auth";
+import { auth, googleProvider, localAuthHelpers } from "@/lib/firebase";
 
 interface AuthContextType {
   currentUser: User | null;
@@ -37,37 +28,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      setLoading(false);
-    });
-
-    return unsubscribe;
+    // Check local storage for user on mount
+    const user = localAuthHelpers.getCurrentUser();
+    setCurrentUser(user);
+    setLoading(false);
   }, []);
 
-  // Sign up with email and password
   const signUp = async (email: string, password: string) => {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const user = await localAuthHelpers.signUp(email, password);
+    setCurrentUser(user);
   };
 
-  // Sign in with email and password
   const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+    const user = await localAuthHelpers.login(email, password);
+    setCurrentUser(user);
   };
 
-  // Sign out
   const logout = async () => {
-    await signOut(auth);
+    await localAuthHelpers.logout();
+    setCurrentUser(null);
   };
 
-  // Sign in with Google
   const googleLogin = async () => {
-    await signInWithPopup(auth, googleProvider);
+    const user = await localAuthHelpers.googleLogin();
+    setCurrentUser(user);
   };
 
-  // Reset password
   const forgotPassword = async (email: string) => {
-    await sendPasswordResetEmail(auth, email);
+    await localAuthHelpers.forgotPassword(email);
   };
 
   const value = {
