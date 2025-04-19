@@ -1,10 +1,13 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { User } from "firebase/auth";
-import { auth, googleProvider, localAuthHelpers } from "@/lib/firebase";
+import { auth, googleProvider, localAuthHelpers, LocalUser } from "@/lib/firebase";
+
+// Create a union type that can be either Firebase User or our LocalUser
+type AuthUser = User | LocalUser;
 
 interface AuthContextType {
-  currentUser: User | null;
+  currentUser: AuthUser | null;
   loading: boolean;
   signUp: (email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
@@ -24,7 +27,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
