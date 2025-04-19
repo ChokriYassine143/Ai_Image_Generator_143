@@ -24,8 +24,15 @@ export class TemporaryReplicateService {
         try {
           // For now, return a placeholder image
           // In production, this would be the URL returned from Replicate
-          const randomImageId = Math.floor(Math.random() * 5) + 1;
-          const placeholderUrl = `https://images.unsplash.com/photo-1649972904349-6e44c42644a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxOTM5MDh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTgzMzc0OTl8&ixlib=rb-4.0.3&q=80`;
+          const placeholderImages = [
+            "https://images.unsplash.com/photo-1661956600684-97d3a4320e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            "https://images.unsplash.com/photo-1682685797365-80f516c5ae3c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxOTM5MDh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTgzMzc0OTl8&ixlib=rb-4.0.3&q=80"
+          ];
+          
+          // Select a random image from the placeholder images
+          const randomIndex = Math.floor(Math.random() * placeholderImages.length);
+          const placeholderUrl = placeholderImages[randomIndex];
           
           toast.success("Image generated successfully!");
           resolve(placeholderUrl);
@@ -33,7 +40,7 @@ export class TemporaryReplicateService {
           toast.error("Failed to generate image");
           reject(error);
         }
-      }, 3000); // Simulating 3 seconds of processing
+      }, 2000); // Simulating 2 seconds of processing
     });
   }
 }

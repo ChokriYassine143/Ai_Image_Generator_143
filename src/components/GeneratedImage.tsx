@@ -30,7 +30,7 @@ const GeneratedImage: React.FC<GeneratedImageProps> = ({ imageUrl, prompt, isLoa
       <div className="relative w-full aspect-square rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-200">
         {isLoading ? (
           <div className="flex flex-col items-center justify-center space-y-4">
-            <div className="w-16 h-16 border-4 border-art-purple border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-16 h-16 border-4 border-art-teal border-t-transparent rounded-full animate-spin"></div>
             <p className="text-gray-500 animate-pulse-slow">Creating your masterpiece...</p>
           </div>
         ) : imageUrl ? (
@@ -38,6 +38,14 @@ const GeneratedImage: React.FC<GeneratedImageProps> = ({ imageUrl, prompt, isLoa
             src={imageUrl} 
             alt={prompt || "Generated image"} 
             className="w-full h-full object-cover"
+            onError={(e) => {
+              console.error("Image failed to load:", e);
+              // Retry with a different URL format if needed
+              const target = e.target as HTMLImageElement;
+              if (!target.src.includes('?retry=true')) {
+                target.src = `${imageUrl}?retry=true`;
+              }
+            }}
           />
         ) : (
           <div className="flex flex-col items-center justify-center p-8 text-center">

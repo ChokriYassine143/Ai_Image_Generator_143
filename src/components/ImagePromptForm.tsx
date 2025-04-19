@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -68,7 +67,7 @@ const ImagePromptForm: React.FC<ImagePromptFormProps> = ({ onGenerate, isGenerat
                 key={index}
                 type="button"
                 onClick={() => usePromptSuggestion(suggestion)}
-                className="text-xs px-3 py-1 bg-art-light-purple text-art-dark-purple rounded-full hover:bg-art-purple hover:text-white transition-colors"
+                className="text-xs px-3 py-1 bg-art-light-teal text-art-dark-teal rounded-full hover:bg-art-teal hover:text-white transition-colors"
                 disabled={isGenerating}
               >
                 {suggestion.length > 30 ? suggestion.substring(0, 30) + "..." : suggestion}
@@ -79,7 +78,7 @@ const ImagePromptForm: React.FC<ImagePromptFormProps> = ({ onGenerate, isGenerat
         
         <Button 
           type="submit" 
-          className="w-full bg-art-gradient hover:opacity-90 transition-opacity"
+          className="w-full bg-teal-gradient hover:opacity-90 transition-opacity"
           disabled={isGenerating}
         >
           {isGenerating ? "Generating..." : "Generate Image"}

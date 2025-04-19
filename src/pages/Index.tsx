@@ -48,17 +48,23 @@ const Index = () => {
   const handleGenerate = async (newPrompt: string) => {
     setIsGenerating(true);
     setPrompt(newPrompt);
+    setActiveTab('create'); // Ensure we're on the create tab
     
     try {
-      // Call the temporary service - you'll replace this with your backend later
+      // Call the temporary service
       const generatedImageUrl = await temporaryReplicateService.generateImage(newPrompt);
+      
+      if (!generatedImageUrl) {
+        throw new Error("Failed to generate image URL");
+      }
+      
       setImageUrl(generatedImageUrl);
       
       // Save the generated image if user is logged in
       if (currentUser) {
         await userImageService.saveImage(currentUser.uid, newPrompt, generatedImageUrl);
         toast.success("Image saved to your gallery");
-        loadUserImages(); // Refresh the saved images
+        await loadUserImages(); // Refresh the saved images
       }
     } catch (error) {
       console.error("Error generating image:", error);
@@ -69,7 +75,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-art-light-purple/30">
+    <div className="min-h-screen bg-gradient-to-b from-white to-art-light-teal/30">
       <Toaster />
       <Header />
       
@@ -82,7 +88,7 @@ const Index = () => {
             </p>
           </div>
           
-          <Tabs defaultValue="create" className="w-full" onValueChange={setActiveTab}>
+          <Tabs value={activeTab} defaultValue="create" className="w-full" onValueChange={setActiveTab}>
             <TabsList className="grid grid-cols-2 w-[400px] mx-auto mb-8">
               <TabsTrigger value="create">Create New</TabsTrigger>
               <TabsTrigger value="gallery">My Gallery</TabsTrigger>
@@ -102,8 +108,8 @@ const Index = () => {
                       ArtBlossom AI uses advanced AI models to create stunning images from text descriptions. 
                       Simply describe what you want to see, and our AI will generate a unique image based on your prompt.
                     </p>
-                    <div className="bg-art-light-purple/50 p-4 rounded-lg">
-                      <h4 className="font-medium text-art-dark-purple">Pro Tips:</h4>
+                    <div className="bg-art-light-teal/50 p-4 rounded-lg">
+                      <h4 className="font-medium text-art-dark-teal">Pro Tips:</h4>
                       <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
                         <li>Be specific and detailed in your description</li>
                         <li>Include style preferences (e.g., "oil painting," "digital art")</li>
@@ -130,8 +136,8 @@ const Index = () => {
                 
                 {savedImages.length === 0 ? (
                   <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-art-light-purple/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-art-purple">
+                    <div className="w-16 h-16 bg-art-light-teal/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-art-teal">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                         <circle cx="8.5" cy="8.5" r="1.5"></circle>
                         <polyline points="21 15 16 10 5 21"></polyline>
@@ -141,7 +147,7 @@ const Index = () => {
                     <p className="text-gray-600 mb-6">Generate your first image to start building your gallery</p>
                     <button 
                       onClick={() => setActiveTab('create')}
-                      className="px-4 py-2 bg-art-gradient text-white rounded-md hover:opacity-90 transition-opacity"
+                      className="px-4 py-2 bg-teal-gradient text-white rounded-md hover:opacity-90 transition-opacity"
                     >
                       Create your first image
                     </button>

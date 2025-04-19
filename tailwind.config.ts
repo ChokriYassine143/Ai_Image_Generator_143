@@ -64,11 +64,11 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				art: {
-					purple: '#8B5CF6',
-					'dark-purple': '#6E59A5',
-					'light-purple': '#E5DEFF',
-					'soft-pink': '#FFDEE2',
-					blue: '#0EA5E9'
+					teal: '#0D9488',
+					'dark-teal': '#0F766E',
+					'light-teal': '#CCFBF1',
+					'soft-blue': '#DBEAFE',
+					blue: '#0284C7'
 				}
 			},
 			borderRadius: {
@@ -112,7 +112,8 @@ export default {
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-				'art-gradient': 'linear-gradient(to right, #8B5CF6, #6E59A5, #9b87f5)',
+				'ocean-gradient': 'linear-gradient(to right, #0284C7, #0D9488, #0891B2)',
+				'teal-gradient': 'linear-gradient(to right, #0D9488, #0F766E, #14B8A6)',
 			}
 		}
 	},
