@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { User } from "firebase/auth";
 import { auth, googleProvider, localAuthHelpers, LocalUser } from "@/lib/firebase";
@@ -14,6 +13,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   googleLogin: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
+  resetPassword: (oobCode: string, newPassword: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -61,6 +61,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await localAuthHelpers.forgotPassword(email);
   };
 
+  const resetPassword = async (oobCode: string, newPassword: string) => {
+    // In development mode, we'll just simulate the password reset
+    console.log('Password reset with code:', oobCode, 'new password:', newPassword);
+    // In production with Firebase, you would use confirmPasswordReset here
+    return Promise.resolve();
+  };
+
   const value = {
     currentUser,
     loading,
@@ -68,7 +75,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     login,
     logout,
     googleLogin,
-    forgotPassword
+    forgotPassword,
+    resetPassword
   };
 
   return (
