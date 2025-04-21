@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import ImagePromptForm from '@/components/ImagePromptForm';
 import GeneratedImage from '@/components/GeneratedImage';
-import { temporaryReplicateService } from '@/services/replicateApi';
+import { cloudflareAIService } from '@/services/replicateApi';
 import { userImageService } from '@/services/userImageService';
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from 'sonner';
@@ -52,16 +52,16 @@ const Index = () => {
     
     try {
       // Call the temporary service
-      const generatedImageUrl = await temporaryReplicateService.generateImage(newPrompt);
+      const generatedImageUrl = await cloudflareAIService.generateImage(newPrompt);
       
       if (!generatedImageUrl) {
         throw new Error("Failed to generate image URL");
       }
-      
+
       setImageUrl(generatedImageUrl);
       
       // Save the generated image if user is logged in
-      if (currentUser) {
+    if (currentUser) {
         await userImageService.saveImage(currentUser.uid, newPrompt, generatedImageUrl);
         toast.success("Image saved to your gallery");
         await loadUserImages(); // Refresh the saved images
