@@ -10,7 +10,7 @@ export class CloudflareAIService {
 
   constructor() {
     // Point to your proxy server
-    this.proxyUrl = 'http://localhost:5000/generate-image'; // Update with your proxy server URL in production
+    this.proxyUrl = 'https://ai-image-generator-143.onrender.com/generate-image'; // Update with your proxy server URL in production
   }
 
   async generateImage(prompt: string): Promise<string> {

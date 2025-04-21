@@ -37,7 +37,7 @@ export const userImageService = {
       formData.append('image', compressedBlob, 'image.jpg');
 
       // Send the image to your backend API using Fetch with multipart/form-data
-      const response = await fetch('http://localhost:5000/api/images/save', {
+      const response = await fetch('https://ai-image-generator-143.onrender.com/api/images/save', {
         method: 'POST',
         body: formData,
         // Note: No need to set 'Content-Type' header; Fetch automatically sets it to 'multipart/form-data' with the correct boundary when using FormData
@@ -58,7 +58,7 @@ export const userImageService = {
   getUserImages: async (userId: string): Promise<SavedImage[]> => {
     try {
       // Fetch images from your backend API using Fetch
-      const response = await fetch(`http://localhost:5000/api/images/user/${userId}`, {
+      const response = await fetch(`https://ai-image-generator-143.onrender.com/api/images/user/${userId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
